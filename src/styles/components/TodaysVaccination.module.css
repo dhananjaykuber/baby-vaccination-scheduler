@@ -1,0 +1,68 @@
+.vaccine_container {
+  color: #333333;
+  margin: 15px 0px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.484);
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.169);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.749);
+}
+
+.vaccine_container em {
+  font-weight: 500;
+  margin-top: 5px;
+  background: #3e0084;
+  color: #fdfdfd;
+  padding: 2px 10px;
+  font-size: 14px;
+  border-radius: 3px;
+}
+
+.vaccine_container h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.vaccine_container p {
+  font-weight: 500;
+  margin: 5px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vaccine_container strong,
+.vaccine_container a {
+  font-weight: 500;
+  color: #333333;
+  text-decoration: none;
+}
+
+.vaccine_container table {
+  margin-top: 10px;
+  border-top: 1px solid #72727237;
+}
+
+.vaccine_container table i {
+  color: #e31212;
+}
+
+.vaccine_container table td {
+  font-weight: 500;
+}
+
+.vaccine_container .td div {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+}
+
+.completed {
+  background: #25c10d;
+}
+
+.incompleted {
+  background: #e31212;
+}

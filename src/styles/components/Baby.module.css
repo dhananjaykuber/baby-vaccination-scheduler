@@ -1,0 +1,136 @@
+.baby {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 15px 0px;
+  border-radius: 5px;
+  color: #333333;
+  position: relative;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.484);
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.169);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.749);
+}
+
+.image_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  background: #3e0084;
+}
+
+.image_container b {
+  color: #fdfdfd;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.image_container img {
+  width: 130px;
+}
+
+.baby .information {
+  margin-left: 15px;
+  width: 100%;
+}
+
+.information h2 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.information p,
+.information a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.information p i {
+  color: #333333;
+}
+
+.information strong {
+  font-weight: 600;
+}
+
+.information a {
+  text-decoration: none;
+  color: #333333;
+}
+
+.baby .edit_icon {
+  color: #333333;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: 0.3s all ease-in;
+  cursor: pointer;
+}
+
+.baby .edit_icon:hover {
+  color: #3e0084;
+}
+
+.button_container {
+  margin-left: 20px;
+}
+
+.button_container button {
+  font-family: 'Montserrat', sans-serif;
+  background: #3e0084;
+  border: none;
+  padding: 10px 5px;
+  width: 100px;
+  text-align: center;
+  transition: 0.3s all ease-in-out;
+  cursor: pointer;
+}
+
+.button_container button a {
+  color: #fdfdfd;
+  text-decoration: none;
+}
+
+.button_container button:hover {
+  background: #310069;
+}
+
+@media only screen and (max-width: 850px) {
+  .baby {
+    flex-direction: column;
+    align-items: unset;
+    padding: 20px 10px;
+    margin: 20px 10px;
+  }
+
+  .image_container {
+    display: none;
+  }
+
+  .baby .information {
+    margin-left: 0px;
+  }
+
+  .button_container {
+    margin-left: 0px;
+  }
+
+  .button_container {
+    margin-top: 20px;
+  }
+
+  .button_container button {
+    width: 100%;
+  }
+}
