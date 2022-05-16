@@ -62,7 +62,10 @@ const Layout = ({ children }) => {
         >
           {user ? (
             <div className={styles.button_container}>
-              <button className={styles.symbol_button}>
+              <button
+                className={styles.symbol_button}
+                onClick={() => navigate('/dashboard')}
+              >
                 <i className={`fa-solid fa-user ${styles.button_icon} `}></i>
                 <a href="/dashboard">Dashboard</a>
               </button>
@@ -76,12 +79,15 @@ const Layout = ({ children }) => {
             </div>
           ) : (
             <div className={styles.button_container}>
-              <button>
+              <button onClick={() => navigate('/login')}>
                 <a href="/login" onClick={() => setOpen(false)}>
                   Login
                 </a>
               </button>
-              <button className={styles.button_filled}>
+              <button
+                className={styles.button_filled}
+                onClick={() => navigate('/register')}
+              >
                 <a href="/register" onClick={() => setOpen(false)}>
                   Register
                 </a>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { actionTypes, useStateValue } from '../utils/store';
 import axios from 'axios';
@@ -13,12 +13,18 @@ const Register = () => {
   const [rengo, setRegno] = useState('');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [contact, setContact] = useState();
+  const [contact, setContact] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const handleOnRegister = async () => {
     setLoading(true);

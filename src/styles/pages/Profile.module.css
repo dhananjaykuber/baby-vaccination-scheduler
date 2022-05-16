@@ -165,3 +165,21 @@ td div {
 .incompleted {
   background: #e31212;
 }
+
+@media only screen and (max-width: 900px) {
+  .profile_container {
+    flex-direction: column;
+    padding: 8px;
+  }
+  .vaccination {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+  .profile_container table {
+    width: 100%;
+  }
+  table th:nth-last-child(2),
+  table tr td:nth-last-child(2) {
+    display: none;
+  }
+}

@@ -34,12 +34,12 @@ const Login = () => {
             />
             {showPassword ? (
               <i
-                class="fa-solid fa-eye-slash"
+                className="fa-solid fa-eye-slash"
                 onClick={() => setShowPassword(!showPassword)}
               ></i>
             ) : (
               <i
-                class="fa-solid fa-eye"
+                className="fa-solid fa-eye"
                 onClick={() => setShowPassword(!showPassword)}
               ></i>
             )}

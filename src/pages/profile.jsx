@@ -87,7 +87,8 @@ const Profile = () => {
       <div className={styles.information_container}>
         <div className={styles.back_button}>
           <a href="/dashboard">
-            <i class="fa-solid fa-arrow-left-long"></i> &nbsp;Back To Dashboard
+            <i className="fa-solid fa-arrow-left-long"></i> &nbsp;Back To
+            Dashboard
           </a>
         </div>
         <div className={styles.information_innercontainer}>
@@ -165,7 +166,7 @@ const Profile = () => {
           </tr>
           <tr>
             <td>
-              <i class="fa-solid fa-syringe"></i> Oral Polio Vaccine
+              <i className="fa-solid fa-syringe"></i> Oral Polio Vaccine
             </td>
             <td>25th May 2022</td>
             <td>3 Months</td>
@@ -184,7 +185,7 @@ const Profile = () => {
           </tr>
           <tr>
             <td>
-              <i class="fa-solid fa-syringe"></i> Oral Polio Vaccine
+              <i className="fa-solid fa-syringe"></i> Oral Polio Vaccine
             </td>
             <td>25th May 2022</td>
             <td>3 Months</td>
@@ -203,7 +204,7 @@ const Profile = () => {
           </tr>
           <tr>
             <td>
-              <i class="fa-solid fa-syringe"></i> Oral Polio Vaccine
+              <i className="fa-solid fa-syringe"></i> Oral Polio Vaccine
             </td>
             <td>25th May 2022</td>
             <td>3 Months</td>
