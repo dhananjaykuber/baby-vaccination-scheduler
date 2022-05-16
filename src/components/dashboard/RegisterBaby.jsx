@@ -15,7 +15,7 @@ const RegisterBaby = () => {
           <input type="text" id="father_name" placeholder="Father's Name" />
         </div>
         <div className={formStyles.field}>
-          <label htmlFor="baby_name">Baby's Name</label>
+          <label htmlFor="baby_name">Child Name</label>
           <input type="text" id="baby_name" placeholder="Baby's Name" />
         </div>
         <div className={formStyles.field}>
@@ -32,10 +32,6 @@ const RegisterBaby = () => {
             <option value="Female">Female</option>
             <option value="Male">Male</option>
           </select>
-        </div>
-        <div className={formStyles.field}>
-          <label htmlFor="bloodgrp">Blood Group</label>
-          <input type="text" id="bloodgrp" placeholder="Baby's Blood Group" />
         </div>
         <div className={formStyles.field}>
           <label htmlFor="contact_no">Contact No.</label>

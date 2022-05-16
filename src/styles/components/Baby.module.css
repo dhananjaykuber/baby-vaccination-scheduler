@@ -11,6 +11,10 @@
   -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.749);
 }
 
+.regno {
+  display: none;
+}
+
 .image_container {
   display: flex;
   align-items: center;
@@ -112,6 +116,15 @@
     align-items: unset;
     padding: 20px 10px;
     margin: 20px 10px;
+  }
+
+  .regno {
+    display: block;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: #310069;
   }
 
   .image_container {

@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AllBabies from '../components/dashboard/AllBabies';
 import RegisterBaby from '../components/dashboard/RegisterBaby';
 import TodaysVaccination from '../components/dashboard/TodaysVaccination';
-import ScheduleVaccination from '../components/dashboard/ScheduleVaccination';
 import styles from '../styles/pages/Dashboard.module.css';
+import { useStateValue } from '../utils/store';
 
 const Dashboard = () => {
   const [active, setActive] = useState('All Childrens');
   const [showNavigation, setShowNavigation] = useState(false);
+  const [{ user }, dispatch] = useStateValue();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div className={styles.dashboard}>
@@ -17,7 +27,11 @@ const Dashboard = () => {
           onClick={() => setShowNavigation(!showNavigation)}
         >
           Click to {showNavigation ? 'close' : 'open'}
-          <i className="fa-solid fa-angles-down"></i>
+          <i
+            className={`fa-solid ${
+              showNavigation ? `fa-angles-up` : `fa-angles-down`
+            }`}
+          ></i>
         </div>
         <div className={styles.navigation}>
           <ul className={showNavigation && styles.show}>
@@ -48,15 +62,6 @@ const Dashboard = () => {
             >
               Todays Vaccination
             </li>
-            <li
-              className={active === 'Schedule Vaccination' && styles.active}
-              onClick={() => {
-                setActive('Schedule Vaccination');
-                setShowNavigation(!showNavigation);
-              }}
-            >
-              Schedule Vaccination
-            </li>
           </ul>
         </div>
       </div>
@@ -67,8 +72,6 @@ const Dashboard = () => {
           <RegisterBaby />
         ) : active === 'Todays Vaccination' ? (
           <TodaysVaccination />
-        ) : active === 'Schedule Vaccination' ? (
-          <ScheduleVaccination />
         ) : (
           <AllBabies />
         )}

@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from '../../styles/components/TodaysVaccination.module.css';
 import Vacination from './Vacination';
 
 const data = [

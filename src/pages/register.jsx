@@ -10,7 +10,7 @@ const Register = () => {
 
   const [{ user }, dispatch] = useStateValue();
 
-  const [rengo, setRegno] = useState('');
+  const [regno, setRegno] = useState('');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [contact, setContact] = useState('');
@@ -32,7 +32,7 @@ const Register = () => {
       .post(
         'https://vaccination-scheduler.herokuapp.com/vaccineScheduler/api/v1/hospital/register',
         {
-          hospital_registration: rengo,
+          hospital_registration: regno,
           hospital_name: name,
           hospital_address: address,
           hospital_contact: contact,
@@ -72,7 +72,7 @@ const Register = () => {
             type="text"
             id="hospital_reg_no"
             placeholder="Hosptial Reg. No."
-            value={rengo}
+            value={regno}
             onChange={(e) => setRegno(e.target.value)}
           />
         </div>

@@ -1,9 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/components/TodaysVaccination.module.css';
 
 const Vacination = ({ data }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className={styles.vaccine_container}>
+    <div
+      className={styles.vaccine_container}
+      onClick={() => navigate(`/dashboard/${data.regno}`)}
+    >
       <em>Reg. No.{data.regno}</em>
       <h3>{data.babyName}</h3>
       <p>

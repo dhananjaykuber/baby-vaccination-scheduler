@@ -7,13 +7,13 @@ const Baby = ({ data }) => {
 
   return (
     <div className={styles.baby}>
-      <i
+      <b className={styles.regno}>Reg. No. {data.regno}</b>
+      {/* <i
         className={`fa-solid fa-pen-to-square ${styles.edit_icon}`}
         onClick={() => {
           setOpen(true);
-          console.log(open);
         }}
-      ></i>
+      ></i> */}
       <div className={styles.image_container}>
         <b>Reg. No. {data.regno}</b>
         <img src="/images/child.png" alt={data.babyName} />

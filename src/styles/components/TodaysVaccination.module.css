@@ -6,6 +6,7 @@
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.484);
   -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.169);
   -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.749);
+  cursor: pointer;
 }
 
 .vaccine_container em {
@@ -65,4 +66,13 @@
 
 .incompleted {
   background: #e31212;
+}
+
+@media only screen and (max-width: 400px) {
+  .vaccine_container {
+    width: 96vw;
+  }
+  .vaccine_container table td {
+    font-size: 14px;
+  }
 }

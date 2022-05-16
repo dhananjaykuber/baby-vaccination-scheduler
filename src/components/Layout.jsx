@@ -32,7 +32,6 @@ const Layout = ({ children }) => {
     dispatch({ type: actionTypes.SET_USER, user: null });
 
     navigate('/');
-    console.log(user);
   };
 
   return (

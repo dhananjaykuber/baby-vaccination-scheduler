@@ -35,7 +35,6 @@
 
 .navigation ul {
   display: flex;
-  margin-top: 10px;
 }
 
 .navigation ul li {
@@ -70,6 +69,7 @@
     align-items: center;
     justify-content: center;
     display: none;
+    margin-top: 20px;
   }
 
   .navigation ul li {

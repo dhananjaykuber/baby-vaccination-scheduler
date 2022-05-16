@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { useStateValue } from '../utils/store';
 import styles from '../styles/pages/Profile.module.css';
 
 const childrensData = [
@@ -79,6 +81,16 @@ const childrensData = [
 
 const Profile = () => {
   const { regno } = useParams();
+
+  const [{ user }, dispatch] = useStateValue();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, []);
 
   const data = childrensData.find((dt) => dt.regno === regno.toString());
 
