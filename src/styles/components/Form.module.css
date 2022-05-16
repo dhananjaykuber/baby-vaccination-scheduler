@@ -66,6 +66,7 @@
   letter-spacing: 0.3px;
   outline: none;
   font-family: 'Montserrat', sans-serif;
+  background: #fdfdfd;
 }
 
 .password_field {
