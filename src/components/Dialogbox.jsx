@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/components/Dialogbox.module.css';
 
-/* 
-
-Mother's Name
-Father's Name
-Baby's Name
-DOB
-Contact No.
-Email
-
-*/
-
 const Dialogbox = ({ open, setOpen, data }) => {
   const [regno, setRegno] = useState(data.regno);
   const [babyName, setBabyName] = useState(data.babyName);

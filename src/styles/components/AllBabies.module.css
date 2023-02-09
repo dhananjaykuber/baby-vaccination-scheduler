@@ -1,3 +1,7 @@
+.allBabies {
+  padding: 30px 10px;
+}
+
 .search {
   display: flex;
   align-items: center;

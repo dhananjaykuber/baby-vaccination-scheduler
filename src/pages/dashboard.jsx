@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AllBabies from '../components/dashboard/AllBabies';
-import RegisterBaby from '../components/dashboard/RegisterBaby';
-import TodaysVaccination from '../components/dashboard/TodaysVaccination';
 import styles from '../styles/pages/Dashboard.module.css';
-import { useStateValue } from '../utils/store';
 
 const Dashboard = () => {
-  const [active, setActive] = useState('All Childrens');
-  const [showNavigation, setShowNavigation] = useState(false);
-  const [{ user }, dispatch] = useStateValue();
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
-  }, []);
+  const [active, setActive] = useState('All Childrens');
+  const [showNavigation, setShowNavigation] = useState(false);
 
   return (
     <div className={styles.dashboard}>
@@ -40,6 +29,7 @@ const Dashboard = () => {
               onClick={() => {
                 setActive('All Childrens');
                 setShowNavigation(!showNavigation);
+                navigate('/dashboard/all-childrens');
               }}
             >
               All Childrens
@@ -49,6 +39,7 @@ const Dashboard = () => {
               onClick={() => {
                 setActive('Add new children');
                 setShowNavigation(!showNavigation);
+                navigate('/dashboard/register-children');
               }}
             >
               Add new children
@@ -58,23 +49,13 @@ const Dashboard = () => {
               onClick={() => {
                 setActive('Todays Vaccination');
                 setShowNavigation(!showNavigation);
+                navigate('/dashboard/todays-vaccination');
               }}
             >
               Todays Vaccination
             </li>
           </ul>
         </div>
-      </div>
-      <div>
-        {active === 'All Childrens' ? (
-          <AllBabies />
-        ) : active === 'Add new children' ? (
-          <RegisterBaby />
-        ) : active === 'Todays Vaccination' ? (
-          <TodaysVaccination />
-        ) : (
-          <AllBabies />
-        )}
       </div>
     </div>
   );

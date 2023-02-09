@@ -1,36 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { actionTypes, useStateValue } from '../utils/store';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import styles from '../../src/styles/components/Layout.module.css';
+
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { setHospital } from '../redux/hospital/hospitalSlice';
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
 
-  const [{ user }, dispatch] = useStateValue();
+  // redux
+  const dispatch = useDispatch();
+  const { hospital } = useSelector((store) => store.hospital);
+
   const [open, setOpen] = useState(false);
-
-  // useEffect(() => {
-  //   const sampleRequest = async () => {
-  //     await axios
-  //       .post(
-  //         'https://vaccination-scheduler.herokuapp.com/vaccineScheduler/api/v1/hospital/login',
-  //         {
-  //           hospital_registration: 'XC10258513211',
-  //           hospital_password: 'sarvesh',
-  //         }
-  //       )
-  //       .then((res) => console.log(res.data));
-  //   };
-
-  //   sampleRequest();
-  // }, []);
 
   const logoutHandle = async () => {
     Cookies.remove('HospitalAdmin');
-    dispatch({ type: actionTypes.SET_USER, user: null });
-
+    dispatch(setHospital(null));
+    setOpen(false);
     navigate('/');
   };
 
@@ -38,9 +27,9 @@ const Layout = ({ children }) => {
     <div>
       <nav className={styles.navbar}>
         <div className={styles.header}>
-          <a href="/">
+          <Link to="/">
             <img src="/images/logo.svg" alt="logo" />
-          </a>
+          </Link>
           <i
             className={
               open
@@ -59,14 +48,17 @@ const Layout = ({ children }) => {
               : `${styles.nav_container}`
           }
         >
-          {user ? (
+          {hospital ? (
             <div className={styles.button_container}>
               <button
                 className={styles.symbol_button}
-                onClick={() => navigate('/dashboard')}
+                onClick={() => {
+                  setOpen(false);
+                  navigate('/dashboard');
+                }}
               >
                 <i className={`fa-solid fa-user ${styles.button_icon} `}></i>
-                <a href="/dashboard">Dashboard</a>
+                <Link to="/dashboard">Dashboard</Link>
               </button>
               <button className={styles.button_filled} onClick={logoutHandle}>
                 <i
@@ -78,18 +70,21 @@ const Layout = ({ children }) => {
             </div>
           ) : (
             <div className={styles.button_container}>
-              <button onClick={() => navigate('/login')}>
-                <a href="/login" onClick={() => setOpen(false)}>
-                  Login
-                </a>
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  navigate('/login');
+                }}
+              >
+                <Link to="/login">Login</Link>
               </button>
               <button
                 className={styles.button_filled}
                 onClick={() => navigate('/register')}
               >
-                <a href="/register" onClick={() => setOpen(false)}>
+                <Link to="/register" onClick={() => setOpen(false)}>
                   Register
-                </a>
+                </Link>
               </button>
             </div>
           )}
@@ -99,7 +94,7 @@ const Layout = ({ children }) => {
       <div className={styles.container}>{children}</div>
 
       <footer className={styles.footer}>
-        <p>&copy; 2022 | Baby Vaccination Scheduler</p>
+        <p>&copy; 2023 | Baby Vaccination Scheduler</p>
       </footer>
     </div>
   );

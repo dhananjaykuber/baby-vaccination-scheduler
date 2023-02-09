@@ -1,31 +1,10 @@
-import { createContext, useReducer, useContext } from 'react';
-import Cookies from 'js-cookie';
+import { configureStore } from '@reduxjs/toolkit';
+import hospitalReducer from '../redux/hospital/hospitalSlice';
+import childernReducer from '../redux/childern/childernSlice';
 
-export const actionTypes = {
-  SET_USER: 'SET_USER',
-};
-
-export const Store = createContext();
-
-const initialState = {
-  user: Cookies.get('HospitalAdmin') ? Cookies.get('HospitalAdmin') : null,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case actionTypes.SET_USER:
-      return { ...state, user: action.user };
-    default:
-      return state;
-  }
-};
-
-export const StoreProvider = (props) => {
-  return (
-    <Store.Provider value={useReducer(reducer, initialState)}>
-      {props.children}
-    </Store.Provider>
-  );
-};
-
-export const useStateValue = () => useContext(Store);
+export const store = configureStore({
+  reducer: {
+    hospital: hospitalReducer,
+    childern: childernReducer,
+  },
+});

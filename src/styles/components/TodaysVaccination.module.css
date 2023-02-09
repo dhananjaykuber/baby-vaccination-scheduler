@@ -7,6 +7,9 @@
   -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.169);
   -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.749);
   cursor: pointer;
+  text-decoration: none;
+  width: 380px;
+  margin: 15px auto;
 }
 
 .vaccine_container em {

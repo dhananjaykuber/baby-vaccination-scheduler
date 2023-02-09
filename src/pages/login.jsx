@@ -1,33 +1,59 @@
 import React, { useState } from 'react';
-import { actionTypes, useStateValue } from '../utils/store';
+import Popup from '../components/Popup';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles/components/Form.module.css';
 
-const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [regno, setRegno] = useState('');
-  const [password, setPassword] = useState('');
+// redux
+import { useDispatch } from 'react-redux';
+import { setHospital } from '../redux/hospital/hospitalSlice';
 
-  const [{ user }, dispatch] = useStateValue();
+const Login = () => {
+  // redux
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const [data, setData] = useState({
+    regNo: '',
+    password: '',
+  });
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    await axios
-      .post(
-        'https://vaccination-scheduler.herokuapp.com/vaccineScheduler/api/v1/hospital/login',
-        {
-          hospital_registration: regno,
-          hospital_password: password,
-        }
-      )
-      .then((res) => {
-        Cookies.set('HospitalAdmin', res.data.hospital_id);
-        dispatch({ type: actionTypes.SET_USER, user: res.data.hospital_id });
+    if (data.regNo.length <= 0 || data.password.length <= 0) {
+      setMessage('Registration number and Password must not be empty.');
+      setOpen(true);
+    } else if (data.regNo.length !== 13) {
+      setMessage('Registration number must be exactly 13 characters long.');
+      setOpen(true);
+    } else if (data.password.length < 7) {
+      setMessage('Password must be at least 7 characters long.');
+      setOpen(true);
+    } else {
+      try {
+        const response = await axios.post(
+          'http://localhost:4000/api/hospital/login',
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        Cookies.set('HospitalAdmin', JSON.stringify(response.data));
+        dispatch(setHospital(response.data));
         navigate('/dashboard');
-        console.log(res.data.hospital_id);
-      });
+      } catch (error) {
+        setMessage(error.response.data.error);
+        setOpen(true);
+      }
+    }
   };
 
   return (
@@ -48,8 +74,8 @@ const Login = () => {
             type="text"
             id="hospital_reg_no"
             placeholder="Hosptial Reg. No."
-            value={regno}
-            onChange={(e) => setRegno(e.target.value)}
+            value={data.regNo}
+            onChange={(e) => setData({ ...data, regNo: e.target.value })}
           />
         </div>
         <div className={styles.field}>
@@ -59,8 +85,8 @@ const Login = () => {
               type={showPassword ? 'text' : 'password'}
               id="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
             />
             {showPassword ? (
               <i
@@ -80,6 +106,8 @@ const Login = () => {
           Don't have an account? <a href="/register">Click here to Register</a>
         </p>
       </div>
+
+      <Popup open={open} setOpen={setOpen} message={message} />
     </div>
   );
 };

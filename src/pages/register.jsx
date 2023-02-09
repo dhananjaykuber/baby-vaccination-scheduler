@@ -1,57 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { actionTypes, useStateValue } from '../utils/store';
+import Popup from '../components/Popup';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import styles from '../styles/components/Form.module.css';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setHospital } from '../redux/hospital/hospitalSlice';
+
 const Register = () => {
+  // redux
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const [{ user }, dispatch] = useStateValue();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const [regno, setRegno] = useState('');
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [contact, setContact] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [data, setData] = useState({
+    regNo: '',
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    password: '',
+  });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [navigate]);
 
   const handleOnRegister = async () => {
-    setLoading(true);
-    await axios
-      .post(
-        'https://vaccination-scheduler.herokuapp.com/vaccineScheduler/api/v1/hospital/register',
-        {
-          hospital_registration: regno,
-          hospital_name: name,
-          hospital_address: address,
-          hospital_contact: contact,
-          hospital_email: email,
-          hospital_password: password,
-        }
-      )
-      .then((res) => {
-        Cookies.set('HospitalAdmin', res.data.hospital_id);
-        dispatch({ type: actionTypes.SET_USER, user: res.data.hospital_id });
-        setLoading(false);
+    if (
+      data.regNo.length <= 0 ||
+      data.name.length <= 0 ||
+      data.address.length <= 0 ||
+      data.phone.length <= 0 ||
+      data.email.length <= 0 ||
+      data.password.length <= 0
+    ) {
+      setMessage('Fields must not be empty.');
+      setOpen(true);
+    } else if (data.regNo.length !== 13) {
+      setMessage('Registration number must be exactly 13 characters long.');
+      setOpen(true);
+    } else if (data.name.length <= 5) {
+      setMessage('Hospital name must be more than 6 characters long.');
+      setOpen(true);
+    } else if (data.address.length <= 5) {
+      setMessage('Hospital address must be more than 6 characters long.');
+      setOpen(true);
+    } else if (data.password.length < 7) {
+      setMessage('Password must be at least 7 characters long.');
+      setOpen(true);
+    } else if (data.phone.length !== 10) {
+      setMessage('Contact number must be 10 digits long.');
+      setOpen(true);
+    } else {
+      try {
+        const response = await axios.post(
+          'http://localhost:4000/api/hospital/register',
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        Cookies.set('HospitalAdmin', JSON.stringify(response.data));
+        dispatch(setHospital(response.data));
         navigate('/dashboard');
-      })
-      .catch((err) => {
-        console.log(err.response.status);
-        console.log(err.response.data.error);
-        console.log(err);
-        setLoading(false);
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -72,8 +93,8 @@ const Register = () => {
             type="text"
             id="hospital_reg_no"
             placeholder="Hosptial Reg. No."
-            value={regno}
-            onChange={(e) => setRegno(e.target.value)}
+            value={data.regNo}
+            onChange={(e) => setData({ ...data, regNo: e.target.value })}
           />
         </div>
         <div className={styles.field}>
@@ -82,8 +103,8 @@ const Register = () => {
             type="text"
             id="hospital_name"
             placeholder="Hosptial Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={data.name}
+            onChange={(e) => setData({ ...data, name: e.target.value })}
           />
         </div>
         <div className={styles.field}>
@@ -92,8 +113,8 @@ const Register = () => {
             type="text"
             id="hospital_address"
             placeholder="Hosptial Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={data.address}
+            onChange={(e) => setData({ ...data, address: e.target.value })}
           />
         </div>
         <div className={styles.field}>
@@ -102,8 +123,8 @@ const Register = () => {
             type="text"
             id="hospital_contact"
             placeholder="Hosptial Contact No."
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
+            value={data.phone}
+            onChange={(e) => setData({ ...data, phone: e.target.value })}
           />
         </div>
         <div className={styles.field}>
@@ -112,8 +133,8 @@ const Register = () => {
             type="email"
             id="hospital_email"
             placeholder="Hosptial Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={data.email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
           />
         </div>
         <div className={styles.field}>
@@ -123,8 +144,8 @@ const Register = () => {
               type={showPassword ? 'text' : 'password'}
               id="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
             />
             {showPassword ? (
               <i
@@ -139,13 +160,13 @@ const Register = () => {
             )}
           </div>
         </div>
-        <button onClick={handleOnRegister} disabled={loading}>
-          Register
-        </button>
+        <button onClick={handleOnRegister}>Register</button>
         <p>
-          Already have an account? <a href="/login">Click here to Login</a>
+          Already have an account? <Link to="/login">Click here to Login</Link>
         </p>
       </div>
+
+      <Popup open={open} setOpen={setOpen} message={message} />
     </div>
   );
 };

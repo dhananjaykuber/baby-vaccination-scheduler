@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from '../../styles/components/Baby.module.css';
 import Dialogbox from '../Dialogbox';
 
@@ -6,16 +7,16 @@ const Baby = ({ data }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={styles.baby}>
-      <b className={styles.regno}>Reg. No. {data.regno}</b>
+    <Link to={`/dashboard/children/${data._id}`} className={styles.baby}>
+      <b className={styles.regno}>Reg. No. {data._id}</b>
       {/* <i
         className={`fa-solid fa-pen-to-square ${styles.edit_icon}`}
         onClick={() => {
-          setOpen(true);
+          setOpen(true);  
         }}
       ></i> */}
       <div className={styles.image_container}>
-        <b>Reg. No. {data.regno}</b>
+        <b>Reg. No. {data._id}</b>
         <img src="/images/child.png" alt={data.babyName} />
       </div>
       <div className={styles.information}>
@@ -40,14 +41,14 @@ const Baby = ({ data }) => {
             <i className="fa-solid fa-calendar-day"></i>
             <span> Date Of Birth</span>
           </div>
-          <strong> {data.dob}</strong>
+          <strong> {data.dateOfBirth}</strong>
         </p>
-        <a href={`tel:+91${data.contact}`}>
+        <a href={`tel:+91${data.phone}`}>
           <div>
             <i className="fa-solid fa-phone"></i>
             <span> Phone Number</span>
           </div>
-          <strong>{data.contact}</strong>
+          <strong>{data.phone}</strong>
         </a>
         <a href={`mailto:${data.email}`}>
           <div>
@@ -59,24 +60,13 @@ const Baby = ({ data }) => {
       </div>
       <div className={styles.button_container}>
         <button>
-          <a href={`/dashboard/${data.regno}`}>View Profile</a>
+          <Link to={`/dashboard/children/${data._id}`}>View Profile</Link>
         </button>
       </div>
 
       <Dialogbox open={open} setOpen={setOpen} data={data} />
-    </div>
+    </Link>
   );
 };
 
 export default Baby;
-
-/* 
-
-Mother's Name
-Father's Name
-Baby's Name
-DOB
-Contact No.
-Email
-
-*/
