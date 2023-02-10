@@ -58,7 +58,7 @@ const Register = () => {
     } else {
       try {
         const response = await axios.post(
-          'http://localhost:4000/api/hospital/register',
+          `${process.env.REACT_APP_BACKEND_URI}/api/hospital/register`,
           data,
           {
             headers: {

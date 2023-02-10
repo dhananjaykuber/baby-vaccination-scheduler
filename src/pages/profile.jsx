@@ -19,7 +19,7 @@ const Profile = () => {
     const getChildren = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/children/${regno}`,
+          `${process.env.REACT_APP_BACKEND_URI}/api/children/${regno}`,
           {
             headers: {
               Authorization: `Bearer ${hospital.token}`,
@@ -38,7 +38,7 @@ const Profile = () => {
     const getVaccination = async () => {
       try {
         const response = await axios(
-          `http://localhost:4000/api/vaccination/${regno}`
+          `${process.env.REACT_APP_BACKEND_URI}/api/vaccination/${regno}`
         );
 
         setVaccination(response.data);
@@ -53,7 +53,7 @@ const Profile = () => {
   const handleUpdateStatus = async (_id, status) => {
     try {
       const response = await axios.patch(
-        `http://localhost:4000/api/vaccination/${_id}`,
+        `${process.env.REACT_APP_BACKEND_URI}/api/vaccination/${_id}`,
         { status: !status, childernId: data._id },
         {
           headers: {

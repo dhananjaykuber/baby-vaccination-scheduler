@@ -38,7 +38,7 @@ const Login = () => {
     } else {
       try {
         const response = await axios.post(
-          'http://localhost:4000/api/hospital/login',
+          `${process.env.REACT_APP_BACKEND_URI}/api/hospital/login`,
           data,
           {
             headers: {

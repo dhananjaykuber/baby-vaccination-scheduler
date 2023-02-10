@@ -28,7 +28,7 @@ function App() {
     const getChildrens = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:4000/api/children/',
+          `${process.env.REACT_APP_BACKEND_URI}/api/children/`,
           {
             headers: {
               Authorization: `Bearer ${hospital.token}`,
@@ -47,7 +47,7 @@ function App() {
     const getVaccinations = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:4000/api/vaccination/get-todays-vaccination',
+          `${process.env.REACT_APP_BACKEND_URI}/api/vaccination/get-todays-vaccination`,
           {
             headers: {
               Authorization: `Bearer ${hospital.token}`,

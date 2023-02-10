@@ -49,7 +49,7 @@ const RegisterChildrens = () => {
     } else {
       try {
         const response = await axios.post(
-          'http://localhost:4000/api/children/register',
+          `${process.env.REACT_APP_BACKEND_URI}/api/children/register`,
           data,
           {
             headers: {
@@ -80,11 +80,14 @@ const RegisterChildrens = () => {
 
   const getChildrens = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/children/', {
-        headers: {
-          Authorization: `Bearer ${hospital.token}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URI}/api/children/`,
+        {
+          headers: {
+            Authorization: `Bearer ${hospital.token}`,
+          },
+        }
+      );
 
       dispatch(setChildrens(response.data));
     } catch (error) {
