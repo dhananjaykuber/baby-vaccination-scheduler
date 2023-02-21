@@ -1,3 +1,18 @@
+.navigate {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.navigate a {
+  color: #333333;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  border-bottom: 1px solid #333333;
+}
+
 .page {
   display: flex;
   align-items: center;

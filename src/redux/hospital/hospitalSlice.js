@@ -20,6 +20,26 @@ const hospitalSlice = createSlice({
     setHospital: (state, action) => {
       state.hospital = action.payload;
     },
+    updateHospital: (state, action) => {
+      state.hospital = {
+        ...state.hospital,
+        name: action.payload.name,
+        address: action.payload.address,
+        phone: action.payload.phone,
+        email: action.payload.email,
+      };
+
+      Cookies.set(
+        'HospitalAdmin',
+        JSON.stringify({
+          ...state.hospital,
+          name: action.payload.name,
+          address: action.payload.address,
+          phone: action.payload.phone,
+          email: action.payload.email,
+        })
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -36,6 +56,6 @@ const hospitalSlice = createSlice({
   },
 });
 
-export const { setHospital } = hospitalSlice.actions;
+export const { setHospital, updateHospital } = hospitalSlice.actions;
 
 export default hospitalSlice.reducer;

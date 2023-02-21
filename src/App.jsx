@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Layout from './components/Layout';
 import Home from './pages/home';
 import Login from './pages/login';
@@ -15,6 +17,11 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHospitalInformation } from './redux/hospital/hospitalSlice';
 import { setChildrens, setVaccinations } from './redux/childern/childernSlice';
+import UpdateHospitalInfo from './pages/updateHospitalInfo';
+
+// react toast
+import 'react-toastify/dist/ReactToastify.css';
+import EditChildren from './pages/editChildren';
 
 function App() {
   const dispatch = useDispatch();
@@ -70,20 +77,40 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/all-childrens" element={<AllChildrens />} />
+          <Route path="/" element={hospital ? <Dashboard /> : <Home />} />
+          <Route
+            path="/register"
+            element={hospital ? <Dashboard /> : <Register />}
+          />
+          <Route path="/login" element={hospital ? <Dashboard /> : <Login />} />
+          <Route
+            path="/dashboard"
+            element={hospital ? <Dashboard /> : <Home />}
+          />
+          <Route
+            path="/dashboard/update-hospital-information"
+            element={hospital ? <UpdateHospitalInfo /> : <Home />}
+          />
+          <Route
+            path="/dashboard/all-childrens"
+            element={hospital ? <AllChildrens /> : <Home />}
+          />
+          <Route
+            path="/dashboard/children/edit/:id"
+            element={hospital ? <EditChildren /> : <Home />}
+          />
           <Route
             path="/dashboard/register-children"
-            element={<RegisterChildrens />}
+            element={hospital ? <RegisterChildrens /> : <Home />}
           />
           <Route
             path="/dashboard/todays-vaccination"
-            element={<TodaysVaccination />}
+            element={hospital ? <TodaysVaccination /> : <Home />}
           />
-          <Route path="/dashboard/children/:regno" element={<Profile />} />
+          <Route
+            path="/dashboard/children/:regno"
+            element={hospital ? <Profile /> : <Home />}
+          />
         </Routes>
       </Layout>
     </Router>

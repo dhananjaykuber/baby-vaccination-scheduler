@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import formStyles from '../styles/components/Form.module.css';
 
-// redux
-import { useDispatch, useSelector } from 'react-redux';
-import { setChildrens } from '../redux/childern/childernSlice';
-import { toast } from 'react-toastify';
-
-const RegisterChildrens = () => {
-  const dispatch = useDispatch();
+const EditChildren = () => {
   const { hospital } = useSelector((store) => store.hospital);
 
-  const navigate = useNavigate();
-
-  const [message, setMessage] = useState('');
+  const { id } = useParams();
 
   const [data, setData] = useState({
     motherName: '',
@@ -53,56 +47,43 @@ const RegisterChildrens = () => {
     });
   };
 
-  const handleOnRegister = async () => {
-    if (
-      data.motherName.length <= 0 ||
-      data.fatherName.length <= 0 ||
-      data.dateOfBirth.length <= 0 ||
-      data.weight.length <= 0 ||
-      data.gender.length <= 0 ||
-      data.phone.length <= 0 ||
-      data.email.length <= 0
-    ) {
-      notifyError('Fields must not be empty.');
-    } else if (isNaN(data.weight)) {
-      notifyError('Children weight must be digit.');
-    } else if (data.phone.length !== 10) {
-      notifyError('Contact number must be 10 digits long.');
-    } else {
+  useEffect(() => {
+    const getChildren = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URI}/api/children/register`,
-          data,
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URI}/api/children/${id}`,
           {
             headers: {
               Authorization: `Bearer ${hospital.token}`,
-              'Content-Type': 'application/json',
             },
           }
         );
-        getChildrens();
 
         setData({
-          motherName: '',
-          fatherName: '',
-          childernName: '',
-          dateOfBirth: '',
-          weight: '',
-          gender: 'Female',
-          phone: '',
-          email: '',
+          motherName: response.data.motherName,
+          fatherName: response.data.fatherName,
+          childernName: response.data.childernName,
+          dateOfBirth: response.data.dateOfBirth,
+          weight: response.data.weight,
+          gender: response.data.gender,
+          phone: response.data.phone,
+          email: response.data.email,
         });
-        notifySuccess('Children registered.');
       } catch (error) {
         console.log(error);
       }
-    }
-  };
+    };
 
-  const getChildrens = async () => {
+    if (id) {
+      getChildren();
+    }
+  }, []);
+
+  const updateChildren = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URI}/api/children/`,
+      const response = await axios.patch(
+        `${process.env.REACT_APP_BACKEND_URI}/api/children/${id}`,
+        { ...data },
         {
           headers: {
             Authorization: `Bearer ${hospital.token}`,
@@ -110,23 +91,25 @@ const RegisterChildrens = () => {
         }
       );
 
-      dispatch(setChildrens(response.data));
+      console.log(response.data);
+
+      notifySuccess(response.data.message);
     } catch (error) {
-      console.log(error);
+      notifyError('Cannot update data. Try again later.');
     }
   };
 
   return (
     <>
       <div className={formStyles.navigate}>
-        <Link to="/dashboard">
-          <i className="fa-solid fa-arrow-left-long"></i> &nbsp;Back To
-          Dashboard
+        <Link to="/dashboard/all-childrens">
+          <i className="fa-solid fa-arrow-left-long"></i> &nbsp;Back To All
+          Childrens
         </Link>
       </div>
       <div className={formStyles.page}>
         <div className={formStyles.form}>
-          <h1>Register new baby</h1>
+          <h1>Update Information</h1>
           <div className={formStyles.field}>
             <label htmlFor="mother_name">Mother's Name</label>
             <input
@@ -211,11 +194,11 @@ const RegisterChildrens = () => {
               onChange={(e) => setData({ ...data, email: e.target.value })}
             />
           </div>
-          <button onClick={handleOnRegister}>Register</button>
+          <button onClick={updateChildren}>Update Information</button>
         </div>
       </div>
     </>
   );
 };
 
-export default RegisterChildrens;
+export default EditChildren;

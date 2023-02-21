@@ -1,62 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import styles from '../styles/pages/Dashboard.module.css';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
-  const [active, setActive] = useState('All Childrens');
-  const [showNavigation, setShowNavigation] = useState(false);
+  const { hospital } = useSelector((store) => store.hospital);
 
   return (
     <div className={styles.dashboard}>
-      <div className={styles.navigation_container}>
-        <div
-          className={styles.navigation_icon}
-          onClick={() => setShowNavigation(!showNavigation)}
-        >
-          Click to {showNavigation ? 'close' : 'open'}
-          <i
-            className={`fa-solid ${
-              showNavigation ? `fa-angles-up` : `fa-angles-down`
-            }`}
-          ></i>
-        </div>
-        <div className={styles.navigation}>
-          <ul className={showNavigation && styles.show}>
-            <li
-              className={active === 'All Childrens' && styles.active}
-              onClick={() => {
-                setActive('All Childrens');
-                setShowNavigation(!showNavigation);
-                navigate('/dashboard/all-childrens');
-              }}
-            >
-              All Childrens
-            </li>
-            <li
-              className={active === 'Add new children' && styles.active}
-              onClick={() => {
-                setActive('Add new children');
-                setShowNavigation(!showNavigation);
-                navigate('/dashboard/register-children');
-              }}
-            >
-              Add new children
-            </li>
-            <li
-              className={active === 'Todays Vaccination' && styles.active}
-              onClick={() => {
-                setActive('Todays Vaccination');
-                setShowNavigation(!showNavigation);
-                navigate('/dashboard/todays-vaccination');
-              }}
-            >
-              Todays Vaccination
-            </li>
-          </ul>
-        </div>
-      </div>
+      <h1>Welcome back! {hospital.name}</h1>
+      <h2>Admin Dashboard</h2>
+      <ul>
+        <li>
+          <Link to="/dashboard/all-childrens">
+            <i class="fa-sharp fa-solid fa-child-reaching"></i>
+            All Childrens
+          </Link>
+        </li>
+        <li>
+          <Link to="/dashboard/register-children">
+            <i class="fa-solid fa-user-plus"></i>
+            Register Children
+          </Link>
+        </li>
+        <li>
+          <Link to="/dashboard/todays-vaccination">
+            <i class="fa-sharp fa-solid fa-syringe"></i>
+            Todays Vaccination
+          </Link>
+        </li>
+        <li>
+          <Link to="/dashboard/update-hospital-information">
+            <i class="fa-solid fa-file-pen"></i>
+            Update Information
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 };

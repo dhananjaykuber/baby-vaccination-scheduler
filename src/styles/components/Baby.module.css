@@ -113,6 +113,16 @@
   background: #310069;
 }
 
+.button_container .deleteButton {
+  background: #cd3737;
+  margin-top: 10px;
+  color: #fdfdfd;
+}
+
+.button_container .deleteButton:hover {
+  background: #bd2929;
+}
+
 @media only screen and (max-width: 850px) {
   .baby {
     flex-direction: column;

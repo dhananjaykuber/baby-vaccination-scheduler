@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Popup from '../components/Popup';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,15 +7,13 @@ import styles from '../styles/components/Form.module.css';
 // redux
 import { useDispatch } from 'react-redux';
 import { setHospital } from '../redux/hospital/hospitalSlice';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   // redux
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState('');
 
   const [data, setData] = useState({
     regNo: '',
@@ -25,16 +22,26 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
+
   const handleLogin = async () => {
     if (data.regNo.length <= 0 || data.password.length <= 0) {
-      setMessage('Registration number and Password must not be empty.');
-      setOpen(true);
+      notifyError('Fields must not be empty.');
     } else if (data.regNo.length !== 13) {
-      setMessage('Registration number must be exactly 13 characters long.');
-      setOpen(true);
+      notifyError('Registration number must be exactly 13 characters long.');
     } else if (data.password.length < 7) {
-      setMessage('Password must be at least 7 characters long.');
-      setOpen(true);
+      notifyError('Password must be at least 7 characters long.');
     } else {
       try {
         const response = await axios.post(
@@ -50,8 +57,7 @@ const Login = () => {
         dispatch(setHospital(response.data));
         navigate('/dashboard');
       } catch (error) {
-        setMessage(error.response.data.error);
-        setOpen(true);
+        notifyError(error.response.data.error);
       }
     }
   };
@@ -106,8 +112,6 @@ const Login = () => {
           Don't have an account? <a href="/register">Click here to Register</a>
         </p>
       </div>
-
-      <Popup open={open} setOpen={setOpen} message={message} />
     </div>
   );
 };

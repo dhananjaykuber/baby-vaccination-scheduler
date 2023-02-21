@@ -1,3 +1,18 @@
+.back_button {
+  display: flex;
+  align-items: center;
+  margin: 20px 0px 30px;
+  margin-left: 20px;
+}
+
+.back_button a {
+  color: #333333;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  border-bottom: 1px solid #333333;
+}
+
 .allBabies {
   padding: 30px 10px;
 }

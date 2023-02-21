@@ -71,6 +71,36 @@
   background: #e31212;
 }
 
+.buttons {
+  border-top: 1px solid #ababab;
+  padding-top: 10px;
+  margin-top: 15px;
+}
+
+.buttons button {
+  background: #3e0084;
+  border: none;
+  padding: 8px 10px;
+  color: #fdfdfd;
+  font-size: 14px;
+  border: 1px solid #3e0084;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+}
+
+.buttons a {
+  color: #4242fa;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-left: 20px;
+}
+
+.buttons .mailed {
+  background: #cd3737;
+  border-color: #cd3737;
+}
+
 @media only screen and (max-width: 400px) {
   .vaccine_container {
     width: 96vw;

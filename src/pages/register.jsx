@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Popup from '../components/Popup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -8,15 +7,13 @@ import styles from '../styles/components/Form.module.css';
 // redux
 import { useDispatch } from 'react-redux';
 import { setHospital } from '../redux/hospital/hospitalSlice';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   // redux
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
 
   const [data, setData] = useState({
     regNo: '',
@@ -29,6 +26,19 @@ const Register = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
+
   const handleOnRegister = async () => {
     if (
       data.regNo.length <= 0 ||
@@ -38,23 +48,17 @@ const Register = () => {
       data.email.length <= 0 ||
       data.password.length <= 0
     ) {
-      setMessage('Fields must not be empty.');
-      setOpen(true);
+      notifyError('Fields must not be empty.');
     } else if (data.regNo.length !== 13) {
-      setMessage('Registration number must be exactly 13 characters long.');
-      setOpen(true);
+      notifyError('Registration number must be exactly 13 characters long.');
     } else if (data.name.length <= 5) {
-      setMessage('Hospital name must be more than 6 characters long.');
-      setOpen(true);
+      notifyError('Hospital name must be more than 6 characters long.');
     } else if (data.address.length <= 5) {
-      setMessage('Hospital address must be more than 6 characters long.');
-      setOpen(true);
+      notifyError('Hospital address must be more than 6 characters long.');
     } else if (data.password.length < 7) {
-      setMessage('Password must be at least 7 characters long.');
-      setOpen(true);
+      notifyError('Password must be at least 7 characters long.');
     } else if (data.phone.length !== 10) {
-      setMessage('Contact number must be 10 digits long.');
-      setOpen(true);
+      notifyError('Contact number must be 10 digits long.');
     } else {
       try {
         const response = await axios.post(
@@ -70,6 +74,7 @@ const Register = () => {
         dispatch(setHospital(response.data));
         navigate('/dashboard');
       } catch (error) {
+        notifyError('Cannot create account. Try after sometime');
         console.log(error);
       }
     }
@@ -165,8 +170,6 @@ const Register = () => {
           Already have an account? <Link to="/login">Click here to Login</Link>
         </p>
       </div>
-
-      <Popup open={open} setOpen={setOpen} message={message} />
     </div>
   );
 };

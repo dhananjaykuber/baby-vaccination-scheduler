@@ -1,20 +1,68 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import {
+  deleteChildren,
+  deleteVaccinations,
+} from '../../redux/childern/childernSlice';
 import styles from '../../styles/components/Baby.module.css';
-import Dialogbox from '../Dialogbox';
 
 const Baby = ({ data }) => {
-  const [open, setOpen] = useState(false);
+  const { hospital } = useSelector((store) => store.hospital);
+  const dispatch = useDispatch();
+
+  const notifySuccess = (message) => {
+    toast.success(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
+
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URI}/api/children/${data._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${hospital.token}`,
+          },
+        }
+      );
+      dispatch(deleteChildren(data._id));
+      dispatch(deleteVaccinations(data._id));
+      notifySuccess(response.data.message);
+    } catch (error) {
+      notifyError('Cannot delete children. Try again leter.');
+    }
+  };
 
   return (
-    <Link to={`/dashboard/children/${data._id}`} className={styles.baby}>
+    <div className={styles.baby}>
       <b className={styles.regno}>Reg. No. {data._id}</b>
-      {/* <i
-        className={`fa-solid fa-pen-to-square ${styles.edit_icon}`}
-        onClick={() => {
-          setOpen(true);  
-        }}
-      ></i> */}
+      <Link to={`/dashboard/children/edit/${data._id}`}>
+        <i className={`fa-solid fa-pen-to-square ${styles.edit_icon}`}></i>
+      </Link>
       <div className={styles.image_container}>
         <b>Reg. No. {data._id}</b>
         <img src="/images/child.png" alt={data.babyName} />
@@ -60,12 +108,15 @@ const Baby = ({ data }) => {
       </div>
       <div className={styles.button_container}>
         <button>
-          <Link to={`/dashboard/children/${data._id}`}>View Profile</Link>
+          <Link to={`/dashboard/children/${data._id}`} target="_blank">
+            View Profile
+          </Link>
+        </button>
+        <button className={styles.deleteButton} onClick={handleDelete}>
+          Delete Profile
         </button>
       </div>
-
-      <Dialogbox open={open} setOpen={setOpen} data={data} />
-    </Link>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { ToastContainer } from 'react-toastify';
 import styles from '../../src/styles/components/Layout.module.css';
 
 // redux
@@ -91,7 +92,10 @@ const Layout = ({ children }) => {
         </div>
       </nav>
 
-      <div className={styles.container}>{children}</div>
+      <div className={styles.container}>
+        {children}
+        <ToastContainer />
+      </div>
 
       <footer className={styles.footer}>
         <p>&copy; 2023 | Baby Vaccination Scheduler</p>
